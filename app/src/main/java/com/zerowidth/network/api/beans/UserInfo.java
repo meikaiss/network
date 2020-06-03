@@ -6,6 +6,7 @@ package com.zerowidth.network.api.beans;
 public class UserInfo {
 
     public String name;
+    public String userId;
     public String gender;
 
 }

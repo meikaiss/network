@@ -5,6 +5,7 @@ import com.zerowidth.networklib.beans.BaseResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -12,9 +13,25 @@ import retrofit2.http.Query;
  */
 public interface UserInfoService {
 
+    @GET("users")
+    Observable<BaseResponse<UserInfo>> getUserInfo(
+            @Query(value = "userid", encoded = true) String userid,
+            @Query(value = "name", encoded = true) String name,
+            @Query(value = "sign", encoded = true) String sign,
+            @Query(value = "design", encoded = true) String x);
 
-    @GET("weather/citys")
-    Observable<BaseResponse<UserInfo>> getWeather(@Query("key") String key);
+
+
+    @GET("users")
+    Observable<BaseResponse<UserInfo>> getUserInfoNox(
+            @Query(value = "userid", encoded = true) String userid,
+            @Query(value = "name", encoded = true) String name,
+            @Query(value = "sign", encoded = true) String sign);
+
+
+    @GET("users/{userid}")
+    Observable<BaseResponse<UserInfo>> getUserInfo2(
+            @Path("userid") String userid);
 
 
 }

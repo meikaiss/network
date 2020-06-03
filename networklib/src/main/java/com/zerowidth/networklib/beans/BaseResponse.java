@@ -5,9 +5,10 @@ package com.zerowidth.networklib.beans;
  */
 public class BaseResponse<T> {
 
-    public String resultCode;
-    public String reason;
-    public T result;
-    public int errorCode;
+    public int code;
+
+    public String message;
+
+    public T data;
 
 }

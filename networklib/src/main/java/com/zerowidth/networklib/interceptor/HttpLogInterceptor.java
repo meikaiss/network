@@ -34,9 +34,13 @@ public class HttpLogInterceptor implements Interceptor {
 
         Request.Builder builder = chain.request().newBuilder();
 
+        long start = System.currentTimeMillis();
         Response response = chain.proceed(builder.build());
+        long end = System.currentTimeMillis();
+        Log.e(TAG, "耗时-->" + (end - start) + "ms");
 
-        Log.e(TAG, "结果-->" + response.body().string());
+
+        //Log.e(TAG, "结果-->" + response.body().string());
 
         return response;
     }
