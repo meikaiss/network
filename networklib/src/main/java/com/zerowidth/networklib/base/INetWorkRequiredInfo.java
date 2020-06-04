@@ -7,4 +7,6 @@ public interface INetWorkRequiredInfo {
     String getAppVersionName();
     String getAppVersionCode();
     boolean isDebug();
+
+    boolean design();
 }

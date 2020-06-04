@@ -10,7 +10,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
 
@@ -44,8 +43,7 @@ dependencies {
     api group: 'io.reactivex.rxjava2', name: 'rxandroid', version: '2.1.1'
     api group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.19'
 
+    api group: 'com.alibaba', name: 'fastjson', version: '1.2.70'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
 }

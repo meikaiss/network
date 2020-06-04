@@ -2,6 +2,7 @@ package com.zerowidth.network.api.user;
 
 import com.zerowidth.networklib.base.INetWorkRequiredInfo;
 import com.zerowidth.networklib.base.NetWorkApi;
+import com.zerowidth.networklib.interceptor.HttpRequestInterceptor;
 
 import okhttp3.Interceptor;
 
@@ -31,15 +32,13 @@ public class UserInfoNetWorkApi extends NetWorkApi {
 
     @Override
     protected String getBaseUrl() {
-
         return "http://192.168.0.106:8080/api/v1/";
         //return "http://121.196.125.228/albumServer/api/v1/";
     }
 
     @Override
     protected Interceptor getInterceptor() {
-        return null;
-        //return new HttpRequestInterceptor(iNetWorkRequiredInfo);
+        return new HttpRequestInterceptor(iNetWorkRequiredInfo);
     }
 
 }

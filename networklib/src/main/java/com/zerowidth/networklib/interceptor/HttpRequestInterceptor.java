@@ -1,6 +1,9 @@
 package com.zerowidth.networklib.interceptor;
 
+import android.net.Uri;
+
 import com.zerowidth.networklib.base.INetWorkRequiredInfo;
+import com.zerowidth.networklib.utils.SignUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,15 +28,28 @@ public class HttpRequestInterceptor implements Interceptor {
     @NotNull
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
+        Uri originalUri = Uri.parse(chain.request().url().toString());
+        Uri.Builder uriBuilder = originalUri.buildUpon();
+
+        String signValue = SignUtils.getSign(chain.request(), uriBuilder);
+        uriBuilder.appendQueryParameter("sign", signValue);
+        if (iNetWorkRequiredInfo.design()) {
+            uriBuilder.appendQueryParameter("x", "575757");
+        }
+        Uri uri = uriBuilder.build();
 
         Request.Builder builder = chain.request().newBuilder();
-        builder.addHeader("os", "android");
-        builder.addHeader("appVersion", iNetWorkRequiredInfo.getAppVersionName());
-        builder.addHeader("source", "source");
-        builder.addHeader("channel", "huawei");
-        builder.addHeader("Date", Calendar.getInstance().getTime().toString());
+        builder.url(uri.toString());
 
-        Response response = chain.proceed(builder.build());
+        builder.header("os", "android");
+        builder.header("appVersion", iNetWorkRequiredInfo.getAppVersionName());
+        builder.header("source", "source");
+        builder.header("channel", "huawei");
+        builder.header("Date", Calendar.getInstance().getTime().toString());
+
+        Request request = builder.build();
+
+        Response response = chain.proceed(request);
 
         return response;
     }

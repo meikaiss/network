@@ -1,7 +1,6 @@
 package com.zerowidth.network.business.okhttp;
 
 import android.os.Bundle;
-import android.util.AndroidException;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,16 +14,15 @@ import com.zerowidth.network.R;
 import com.zerowidth.network.api.beans.UserInfo;
 import com.zerowidth.network.api.user.UserInfoNetWorkApi;
 import com.zerowidth.network.api.user.UserInfoService;
-import com.zerowidth.networklib.base.ApiUtil;
 import com.zerowidth.networklib.beans.BaseResponse;
-import com.zerowidth.networklib.observer.BaseObserver;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -70,23 +68,26 @@ public class OkHttpActivity extends AppCompatActivity {
     }
 
     private void doGet() {
+
         UserInfoNetWorkApi.getInstance().getService(UserInfoService.class)
-                .getUserInfo("123", "meikai", "f6a00870aa63300e1fcb7dec36a8e28c", "575757")
+                .sendAuthCodeSMS("18062627592", false)
+                //.getUserInfo("123", "meikai")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseResponse<UserInfo>>() {
+                .subscribe(new Observer<BaseResponse<Void>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(BaseResponse<UserInfo> userInfoBaseResponse) {
+                    public void onNext(BaseResponse<Void> userInfoBaseResponse) {
                         Toast.makeText(getApplication(), "成功：" + new Gson().toJson(userInfoBaseResponse), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("mk", e.toString());
                         Toast.makeText(getApplication(), "失败：" + new Gson().toJson(e), Toast.LENGTH_SHORT).show();
                     }
 
@@ -96,31 +97,6 @@ public class OkHttpActivity extends AppCompatActivity {
                     }
                 });
 
-    }
-
-    private void doGet23() {
-
-
-        ApiUtil.request(
-                UserInfoNetWorkApi.getInstance().getService(UserInfoService.class)
-                        .getUserInfo("123", "meikai", "f6a00870aa63300e1fcb7dec36a8e28c", "575757"),
-                new BaseObserver<BaseResponse<UserInfo>>() {
-
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        super.onSubscribe(d);
-                    }
-
-                    @Override
-                    public void onSuccess(BaseResponse<UserInfo> result) {
-                        Toast.makeText(getApplication(), "成功：" + new Gson().toJson(result), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Throwable e) {
-                        Toast.makeText(getApplication(), "失败：" + new Gson().toJson(e), Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     private void doGet2() {
@@ -236,7 +212,7 @@ public class OkHttpActivity extends AppCompatActivity {
 //        });
     }
 
-    private void showResult(String result){
+    private void showResult(String result) {
         getWindow().getDecorView().post(new Runnable() {
             @Override
             public void run() {

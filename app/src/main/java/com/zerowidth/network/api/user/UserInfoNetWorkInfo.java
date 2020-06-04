@@ -21,4 +21,9 @@ public class UserInfoNetWorkInfo implements INetWorkRequiredInfo {
     public boolean isDebug() {
         return BuildConfig.DEBUG;
     }
+
+    @Override
+    public boolean design() {
+        return false;
+    }
 }

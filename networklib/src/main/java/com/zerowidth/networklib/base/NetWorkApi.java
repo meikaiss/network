@@ -2,9 +2,6 @@ package com.zerowidth.networklib.base;
 
 import android.util.Log;
 
-import com.zerowidth.networklib.interceptor.HttpLogInterceptor;
-import com.zerowidth.networklib.interceptor.HttpRequestInterceptor;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -82,18 +79,13 @@ public abstract class NetWorkApi {
         okHttpClientBuilder.writeTimeout(10_000, TimeUnit.MILLISECONDS);
         okHttpClientBuilder.readTimeout(10_000, TimeUnit.MILLISECONDS);
 
-        // 增加 通用请求头
-//        Interceptor interceptor = getInterceptor();
-//        if (interceptor != null) {
-//            okHttpClientBuilder.addInterceptor(interceptor);
-//        }
-//
-//        // 增加 自定义的请求日志
-//        if (iNetWorkRequiredInfo != null && iNetWorkRequiredInfo.isDebug()) {
-//            okHttpClientBuilder.addInterceptor(new HttpLogInterceptor(iNetWorkRequiredInfo));
-//        }
+        //请求头、签名
+        Interceptor interceptor = getInterceptor();
+        if (interceptor != null) {
+            okHttpClientBuilder.addInterceptor(interceptor);
+        }
 
-        // 增加 官方请求日志
+        //官方请求日志
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(@NotNull String s) {

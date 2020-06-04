@@ -37,28 +37,6 @@ public class MainViewModel extends AndroidViewModel {
     public void getUserInfo() {
 
 
-        ApiUtil.request(
-                UserInfoNetWorkApi.getInstance().getService(UserInfoService.class)
-                        .getUserInfo("123", "meikai", "", ""),
-                new BaseObserver<BaseResponse<UserInfo>>() {
-
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        super.onSubscribe(d);
-                        disposableList.add(d);
-                    }
-
-                    @Override
-                    public void onSuccess(BaseResponse<UserInfo> result) {
-                        userInfoLiveData.setValue(result.data);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable e) {
-                        Toast.makeText(getApplication(), "失败：" + new Gson().toJson(e), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
     }
 
 
